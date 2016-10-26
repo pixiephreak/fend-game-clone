@@ -1,26 +1,21 @@
 // Enemies our player must avoid
-var Enemy = function() {
-
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    // REMEMBER TO UNCOMMENT function updateEntities(dt)
+var Enemy = function(x,y,speed) {
     this.sprite = 'images/enemy-bug.png';
-    var Num = function(){this.value = Math.floor(Math.random() *  (500 - 20))}
-    var newNum = new Num()
-    this.style.left = `${newNum.value}px`
 
-    allEnemies.push(this);
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+
+    console.log('madeOneEnemy')
+
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    var Num = function(){this.value = Math.floor(Math.random() *  (500 - 20))}
-    var newNum = new Num()
-    this.style.left = `${newNum.value}px`
+    // console.log('prototypedEnemy')
+    this.x = this.x + this.speed * dt
+
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -34,12 +29,18 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function(){
+var Player = function(x,y){
     this.sprite = 'images/char-horn-girl.png';
-    this.style.left = '250px'
+    this.x = x
+    this.y = y
+    var player = Object.create(Player.prototype);
+    // console.log("madeOnePlayer")
 };
 
 Player.prototype.update = function(dt) {
+    // console.log('prototypedPlayer')
+    this.x = this.x
+    this.y = this.y
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -55,8 +56,14 @@ Player.prototype.render = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var player = Player
+playerStartX = 245;
+playerStartY = 450;
 var allEnemies = []
+var player = new Player(playerStartX,playerStartY);
+for (let i =0; i< 5; i++){
+var newEnemy = new Enemy(0, Math.floor(Math.random() *  (400 - 20)), 10);
+allEnemies.push(newEnemy);}
+
 
 
 
