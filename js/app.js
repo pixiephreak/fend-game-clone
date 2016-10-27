@@ -45,9 +45,9 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
 };
-
+//create global access to Player's position?
 var playerPosition = [];
-
+// check for collision of player/enemy
 Enemy.prototype.collision = function(){
 
 	console.log('checking')
@@ -66,9 +66,9 @@ Enemy.prototype.collision = function(){
 	    console.log('collision detected!')
 		}
 	}
-}
-
-Enemy.prototype.collision();
+};
+//TO-DO: FIGURE OUT WHERE TO CALL THIS
+// Enemy.prototype.collision();
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -86,8 +86,8 @@ var Player = function(x,y){
 
 Player.prototype.update = function(dt) {
     // console.log('prototypedPlayer!')
-    this.x = this.x
-    this.y = this.y
+    this.x = this.x * dt
+    this.y = this.y * dt
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -98,7 +98,11 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Player.prototype.handleInput = function(e){
+// 	if (e.which === 37){movePlayerLeft();}
+// 	if (e.which === 39){movePlayerRight();}
 
+// };
 
 
 // Now instantiate your objects.
@@ -142,5 +146,13 @@ function enemyPlaceVal(min, max){
 	return Math.random() * (max - min) + min;
 }
 
+// function movePlayerLeft(){
+// 	this.x = this.x + 10;
+
+// }
+
+// function movePlayerRight(){
+// 	this.x = this.x - 10;
+// }
 
 
