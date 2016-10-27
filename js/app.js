@@ -46,21 +46,30 @@ Enemy.prototype.render = function() {
 
 };
 
+var playerPosition = [];
+
 Enemy.prototype.collision = function(){
 
+	console.log('checking')
+
 	for (let i = 0; i < playerPosition.length; i++){
-	playerTop =
+	var thisEnemyX = this.x;
+	var thisPlayerY = playerPosition[i][i];
+	var thisEnemyY = this.y;
+	var thisPlayerY = playerPosition[i][i+1];
 
 
-if (this.x < player.x + rect2.width &&
-   rect1.x + rect1.width > rect2.x &&
-   rect1.y < rect2.y + rect2.height &&
-   rect1.height + rect1.y > rect2.y) {
-    // collision detected!
+	if ( thisEnemyX < thisPlayerX + 100 &&
+	   thisEnemyX + 100 > thisPlayerX &&
+	   thisEnemyY < thisPlayerY+ 100 &&
+	   100 + thisEnemyY > thisPlayerY) {
+	    console.log('collision detected!')
+		}
+	}
 }
-}
-}
-var playerPosition = [];
+
+Enemy.prototype.collision();
+
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
