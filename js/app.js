@@ -1,4 +1,7 @@
 // Enemies our player must avoid
+
+
+
 var Enemy = function(x,y,speed) {
     this.sprite = 'images/enemy-bug.png';
     this.width = 100;
@@ -11,11 +14,22 @@ var Enemy = function(x,y,speed) {
 
 };
 
-// Update the enemy's position, required method for game
+// Update the enemy's position
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     // console.log('prototypedEnemy')
-    	this.x = this.x + this.speed * dt;
+    // TO-DO: CHANGE ENEMY PATH USING "BOUNCONG BALL" PATTERN? *DOESN'T WORK*
+    // var x=100;
+	// var y=200;
+	// var dx=1;
+	// var dy=1;
+    // if( this.x<5 || this.x>204) {dx=+dx;}
+	// if( this.y<5 || this.y>200) {dy=+dy;}
+	// this.x-=dx + this.speed * dt;;
+  	// this.y-=dy;
+
+  		this.x = this.x + this.speed * dt;
+  		// Have enemies re-render at x = 0 when the reach the right edge
 		if(this.x > 500){
 			this.x = 0
 		}
@@ -29,15 +43,35 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
 };
 
+Enemy.prototype.collision = function(){
+
+	for (let i = 0; i < playerPosition.length; i++){
+	playerTop =
+
+
+if (this.x < player.x + rect2.width &&
+   rect1.x + rect1.width > rect2.x &&
+   rect1.y < rect2.y + rect2.height &&
+   rect1.height + rect1.y > rect2.y) {
+    // collision detected!
+}
+}
+}
+var playerPosition = [];
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(x,y){
     this.sprite = 'images/char-horn-girl.png';
+    this.height = 100;
+    this.width = 100;
     this.x = x
     this.y = y
+    playerPosition.push([this.x,this.y])
+
     // console.log("madeOnePlayer")
 };
 
@@ -56,18 +90,21 @@ Player.prototype.render = function() {
 };
 
 
+
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-playerStartX = 245;
-playerStartY = 450;
+playerStartX = 207;
+playerStartY = 435;
 var allEnemies = []
 var player = new Player(playerStartX,playerStartY);
 
+
 function makeEnemeis(){
-for(let i=0; i<7; i++){
-	var newEnemy = new Enemy(0, Math.floor(Math.random() *  (400 - 20)), Math.floor(Math.random() *  (100)) );
+for(let i=0; i<5; i++){
+	var newEnemy = new Enemy(0, enemyPlaceVal(50, 330), enemySpeedVal(100) );
 	allEnemies.push(newEnemy);
 }}
 makeEnemeis()
@@ -87,3 +124,14 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+function enemySpeedVal(speed){
+	return Math.floor(Math.random() *  (speed))
+}
+
+function enemyPlaceVal(min, max){
+	return Math.random() * (max - min) + min;
+}
+
+
+
