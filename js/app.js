@@ -1,7 +1,8 @@
 // Enemies our player must avoid
 var Enemy = function(x,y,speed) {
     this.sprite = 'images/enemy-bug.png';
-
+    this.width = 100;
+    this.height = 100;
     this.x = x;
     this.y = y;
     this.speed = speed;
@@ -14,7 +15,11 @@ var Enemy = function(x,y,speed) {
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     // console.log('prototypedEnemy')
-    this.x = this.x + this.speed * dt
+    	this.x = this.x + this.speed * dt;
+		if(this.x > 500){
+			this.x = 0
+		}
+
 
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -33,12 +38,11 @@ var Player = function(x,y){
     this.sprite = 'images/char-horn-girl.png';
     this.x = x
     this.y = y
-    var player = Object.create(Player.prototype);
     // console.log("madeOnePlayer")
 };
 
 Player.prototype.update = function(dt) {
-    // console.log('prototypedPlayer')
+    // console.log('prototypedPlayer!')
     this.x = this.x
     this.y = this.y
     // You should multiply any movement by the dt parameter
@@ -60,9 +64,13 @@ playerStartX = 245;
 playerStartY = 450;
 var allEnemies = []
 var player = new Player(playerStartX,playerStartY);
-for (let i =0; i< 5; i++){
-var newEnemy = new Enemy(0, Math.floor(Math.random() *  (400 - 20)), 10);
-allEnemies.push(newEnemy);}
+
+function makeEnemeis(){
+for(let i=0; i<7; i++){
+	var newEnemy = new Enemy(0, Math.floor(Math.random() *  (400 - 20)), Math.floor(Math.random() *  (100)) );
+	allEnemies.push(newEnemy);
+}}
+makeEnemeis()
 
 
 

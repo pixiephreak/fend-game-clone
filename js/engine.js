@@ -29,6 +29,9 @@ var Engine = (function(global) {
     canvas.height = 606;
     doc.body.appendChild(canvas);
 
+
+    //HOW CAN I DYNAMICALLY LINK THESE CANVAS DIMENSION TO USE CANVAS/2 IN APP.JS?
+
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
@@ -170,9 +173,9 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
+        'images/enemy-bug.png',		// (101x171px)
         'images/char-boy.png',
-        'images/char-horn-girl.png'
+        'images/char-horn-girl.png' // (101x171px)
     ]);
     Resources.onReady(init);
 
