@@ -20,19 +20,19 @@ Enemy.prototype.update = function(dt) {
     // console.log('prototypedEnemy')
     // TO-DO: CHANGE ENEMY PATH USING "BOUNCONG BALL" PATTERN? *DOESN'T WORK*
     // var x=100;
-	// var y=200;
-	// var dx=1;
-	// var dy=1;
+    // var y=200;
+    // var dx=1;
+    // var dy=1;
     // if( this.x<5 || this.x>204) {dx=+dx;}
-	// if( this.y<5 || this.y>200) {dy=+dy;}
-	// this.x-=dx + this.speed * dt;;
-  	// this.y-=dy;
+    // if( this.y<5 || this.y>200) {dy=+dy;}
+    // this.x-=dx + this.speed * dt;;
+    // this.y-=dy;
 
-  		this.x = this.x + this.speed * dt;
-  		// Have enemies re-render at x = 0 when the reach the right edge
-		if(this.x > 500){
-			this.x = 0
-		}
+        this.x = this.x + this.speed * dt;
+        // Have enemies re-render at x = 0 when the reach the right edge
+        if(this.x > 500){
+            this.x = 0
+        }
 
 
     // You should multiply any movement by the dt parameter
@@ -45,30 +45,23 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
 };
-//create global access to Player's position?
-var playerPosition = [];
+
 // check for collision of player/enemy
-Enemy.prototype.collision = function(){
+Enemy.prototype.checkCollisions = function(other){
+    var thisEnemy = this
+    var thisPlayer = other;
 
-	console.log('checking')
+    for (let i = 0; i < allEnemies.length; i++){
 
-	for (let i = 0; i < playerPosition.length; i++){
-	var thisEnemyX = this.x;
-	var thisPlayerY = playerPosition[i][i];
-	var thisEnemyY = this.y;
-	var thisPlayerY = playerPosition[i][i+1];
-
-
-	if ( thisEnemyX < thisPlayerX + 100 &&
-	   thisEnemyX + 100 > thisPlayerX &&
-	   thisEnemyY < thisPlayerY+ 100 &&
-	   100 + thisEnemyY > thisPlayerY) {
-	    console.log('collision detected!')
-		}
-	}
+    if ( thisEnemy.x < thisPlayer.x + 75 &&
+       thisEnemy.x + 75 > thisPlayer.x &&
+       thisEnemy.y < thisPlayer.y+ 75 &&
+       75 + thisEnemy.y > thisPlayer.y) {
+        console.log('collision detected!')
+        }
+    }
 };
-//TO-DO: FIGURE OUT WHERE TO CALL THIS
-// Enemy.prototype.collision();
+
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -79,18 +72,16 @@ var Player = function(x,y){
     this.width = 100;
     this.x = x
     this.y = y
-    playerPosition.push([this.x,this.y])
 
     // console.log("madeOnePlayer")
 };
 
 Player.prototype.update = function(dt) {
     // console.log('prototypedPlayer!')
-    this.x = this.x * dt
-    this.y = this.y * dt
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
+    this.x = this.x
+    this.y = this.y
+    window.addEventListener('keydown', Player.prototype.handleInput);
+
 };
 
 // Draw the player on the screen, required method for game
@@ -98,11 +89,17 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Player.prototype.handleInput = function(e){
-// 	if (e.which === 37){movePlayerLeft();}
-// 	if (e.which === 39){movePlayerRight();}
+Player.prototype.handleInput = function(key){
+    if (key === 'up' && this.y > 10){this.y= this.y - 10;}
+    if (key === 'down' && this.y < 400){this.y = this.y + 10;}
+    if (key === 'left' && this.x > 0){this.x = this.x - 10;}
+    if (key === 'right' && this.x < 400){
+        this.x = movePlayerRight(this.x);}
+    // console.log('keys wired');
 
-// };
+    // apply event.preventDefault()?
+
+};
 
 
 // Now instantiate your objects.
@@ -117,8 +114,8 @@ var player = new Player(playerStartX,playerStartY);
 
 function makeEnemeis(){
 for(let i=0; i<5; i++){
-	var newEnemy = new Enemy(0, enemyPlaceVal(50, 330), enemySpeedVal(100) );
-	allEnemies.push(newEnemy);
+    var newEnemy = new Enemy(0, enemyPlaceVal(50, 330), enemySpeedVal(100) );
+    allEnemies.push(newEnemy);
 }}
 makeEnemeis()
 
@@ -138,21 +135,23 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+
+
 function enemySpeedVal(speed){
-	return Math.floor(Math.random() *  (speed))
+    return Math.floor(Math.random() *  (speed))
 }
 
 function enemyPlaceVal(min, max){
-	return Math.random() * (max - min) + min;
+    return Math.random() * (max - min) + min;
 }
 
 // function movePlayerLeft(){
-// 	this.x = this.x + 10;
+//     this.x = this.x -= 10;
 
 // }
 
-// function movePlayerRight(){
-// 	this.x = this.x - 10;
-// }
+function movePlayerRight(currentX){
+    return currentX  += 10;
+}
 
 
