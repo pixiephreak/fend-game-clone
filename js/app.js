@@ -53,8 +53,8 @@ Enemy.prototype.checkCollisions = function(other){
 
     for (let i = 0; i < allEnemies.length; i++){
 
-    if ( thisEnemy.x < thisPlayer.x + 75 &&
-       thisEnemy.x + 75 > thisPlayer.x &&
+    if ( thisEnemy.x < thisPlayer.x + 175 &&
+       thisEnemy.x + 55 > thisPlayer.x &&
        thisEnemy.y < thisPlayer.y+ 75 &&
        75 + thisEnemy.y > thisPlayer.y) {
         console.log('collision detected!')
@@ -111,13 +111,17 @@ playerStartY = 435;
 var allEnemies = []
 var player = new Player(playerStartX,playerStartY);
 
-
+//how to make # of enemies increase incrementally
 function makeEnemeis(){
-for(let i=0; i<5; i++){
-    var newEnemy = new Enemy(0, enemyPlaceVal(50, 330), enemySpeedVal(100) );
-    allEnemies.push(newEnemy);
-}}
-makeEnemeis()
+        for(let i=0; i<5; i++){
+            var newEnemy = new Enemy(0, enemyPlaceVal(50, 330), enemySpeedVal(100) );
+            allEnemies.push(newEnemy);
+        }
+
+    }
+
+ makeEnemeis()
+
 
 
 
@@ -154,4 +158,7 @@ function movePlayerRight(currentX){
     return currentX  += 10;
 }
 
+//TO DO
+// end game function
+// add end game to checkCollisions()
 
