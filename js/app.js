@@ -28,16 +28,15 @@ Enemy.prototype.update = function(dt) {
     // this.x-=dx + this.speed * dt;;
     // this.y-=dy;
 
+         // multiply any movement by the dt parameter
+        // to ensure the game runs at the same speed for
+        // all computers.
+
         this.x = this.x + this.speed * dt;
         // Have enemies re-render at x = 0 when the reach the right edge
         if(this.x > 500){
             this.x = 0
         }
-
-
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
 };
 
 // Draw the enemy on the screen, required method for game
@@ -53,11 +52,14 @@ Enemy.prototype.checkCollisions = function(other){
 
     for (let i = 0; i < allEnemies.length; i++){
 
-    if ( thisEnemy.x < thisPlayer.x + 175 &&
-       thisEnemy.x + 55 > thisPlayer.x &&
-       thisEnemy.y < thisPlayer.y+ 75 &&
-       75 + thisEnemy.y > thisPlayer.y) {
-        console.log('collision detected!')
+        if ( thisEnemy.x < thisPlayer.x + 60 &&
+           thisEnemy.x + 60 > thisPlayer.x &&
+           thisEnemy.y < thisPlayer.y+ 60 &&
+           60 + thisEnemy.y > thisPlayer.y) {
+            console.log('collision detected!')
+            endGame()
+            document.location.reload(true)
+            // reset() = false;
         }
     }
 };
@@ -81,6 +83,10 @@ Player.prototype.update = function(dt) {
     this.x = this.x
     this.y = this.y
     window.addEventListener('keydown', Player.prototype.handleInput);
+    if (player.y < 50){
+              winGame()
+              document.location.reload(true)
+        }
 
 };
 
@@ -113,7 +119,7 @@ var player = new Player(playerStartX,playerStartY);
 
 //how to make # of enemies increase incrementally
 function makeEnemeis(){
-        for(let i=0; i<5; i++){
+        for(let i=0; i<4; i++){
             var newEnemy = new Enemy(0, enemyPlaceVal(50, 330), enemySpeedVal(100) );
             allEnemies.push(newEnemy);
         }
@@ -157,6 +163,23 @@ function enemyPlaceVal(min, max){
 function movePlayerRight(currentX){
     return currentX  += 10;
 }
+
+function endGame(){
+    allEnemies.length = 0;
+    window.alert("Oh, NO. YOU COLLIDED. TRY AGAIN")
+
+}
+
+function winGame(){
+
+        window.alert("YOU WON!")
+
+}
+
+
+// function start(){
+
+// }
 
 //TO DO
 // end game function

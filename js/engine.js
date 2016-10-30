@@ -163,7 +163,8 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        window.alert("Take your avatar to the water without colliding with the bugs.  Use the UP, DOWN, LEFT, AND RIGHT  arrows on your keyboard to move.")
+
     }
 
     /* Go ahead and load all of the images we know we're going to need to
