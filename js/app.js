@@ -96,16 +96,20 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(key){
-    if (key === 'up' && this.y > 10){this.y= this.y - 10;}
+      // Prevent default behaviour of arrow keys
+
+    if (key === 'up' && this.y > 10){this.y= this.y - 10; key.preventDefault(); console.log('stopped default')}
     if (key === 'down' && this.y < 400){this.y = this.y + 10;}
     if (key === 'left' && this.x > 0){this.x = this.x - 10;}
     if (key === 'right' && this.x < 400){
         this.x = movePlayerRight(this.x);}
-    // console.log('keys wired');
 
-    // apply event.preventDefault()?
+
+
 
 };
+
+
 
 
 // Now instantiate your objects.
