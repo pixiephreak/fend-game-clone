@@ -98,7 +98,7 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(key){
       // Prevent default behaviour of arrow keys
 
-    if (key === 'up' && this.y > 10){this.y= this.y - 10; key.preventDefault(); console.log('stopped default')}
+    if (key === 'up' && this.y > 10){this.y= this.y - 10; console.log(key);}
     if (key === 'down' && this.y < 400){this.y = this.y + 10;}
     if (key === 'left' && this.x > 0){this.x = this.x - 10;}
     if (key === 'right' && this.x < 400){
@@ -146,6 +146,10 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
+    if(e.which === 37 || e.which === 38 || e.which === 39 || e.which === 40){
+        e.preventDefault(); console.log('stopped default')
+    }
+
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
@@ -170,7 +174,7 @@ function movePlayerRight(currentX){
 
 function endGame(){
     allEnemies.length = 0;
-    window.alert("Oh, NO. YOU COLLIDED. TRY AGAIN")
+    window.alert("Oh, No. YOU COLLIDED. CLICK 'OK' TO TRY AGAIN")
 
 }
 
