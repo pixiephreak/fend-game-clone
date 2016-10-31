@@ -10,7 +10,7 @@ var Enemy = function(x,y,speed) {
     this.y = y;
     this.speed = speed;
 
-    console.log('madeOneEnemy')
+    console.log('madeOneEnemy');
 
 };
 
@@ -35,7 +35,7 @@ Enemy.prototype.update = function(dt) {
         this.x = this.x + this.speed * dt;
         // Have enemies re-render at x = 0 when the reach the right edge
         if(this.x > 500){
-            this.x = 0
+            this.x = 0;
         }
 };
 
@@ -47,7 +47,7 @@ Enemy.prototype.render = function() {
 
 // check for collision of player/enemy
 Enemy.prototype.checkCollisions = function(other){
-    var thisEnemy = this
+    var thisEnemy = this;
     var thisPlayer = other;
 
     for (let i = 0; i < allEnemies.length; i++){
@@ -56,9 +56,9 @@ Enemy.prototype.checkCollisions = function(other){
            thisEnemy.x + 60 > thisPlayer.x &&
            thisEnemy.y < thisPlayer.y+ 60 &&
            60 + thisEnemy.y > thisPlayer.y) {
-            console.log('collision detected!')
-            endGame()
-            document.location.reload(true)
+            console.log('collision detected!');
+            endGame();
+            document.location.reload(true);
             // reset() = false;
         }
     }
@@ -70,8 +70,8 @@ var Player = function(x,y){
     this.sprite = 'images/char-horn-girl.png';
     this.height = 100;
     this.width = 100;
-    this.x = x
-    this.y = y
+    this.x = x;
+    this.y = y;
 
 
 };
@@ -79,12 +79,12 @@ var Player = function(x,y){
 //Update player's location on screen according to keydown events. End game when player reaches water and restart game.
 Player.prototype.update = function(dt) {
 
-    this.x = this.x
-    this.y = this.y
+    this.x = this.x;
+    this.y = this.y;
     window.addEventListener('keydown', Player.prototype.handleInput);
     if (player.y < 50){
-              winGame()
-              document.location.reload(true)
+              winGame();
+              document.location.reload(true);
         }
 
 };
@@ -118,7 +118,7 @@ Player.prototype.handleInput = function(key){
     if (key === 'right' && this.x < 400){
         this.x = movePlayerRight(this.x);}
 
-}
+};
 
 
 
@@ -130,7 +130,7 @@ Player.prototype.handleInput = function(key){
 
 playerStartX = 207;
 playerStartY = 435;
-var allEnemies = []
+var allEnemies = [];
 var player = new Player(playerStartX,playerStartY);
 
 // TO-DO: how to make # of enemies increase incrementally
@@ -159,7 +159,7 @@ document.addEventListener('keyup', function(e) {
     };
     // Prevent default behaviour of arrow keys
     if(e.which === 37 || e.which === 38 || e.which === 39 || e.which === 40){
-        e.preventDefault(); e.stopPropagation(); console.log('stopped default')
+        e.preventDefault(); e.stopPropagation(); console.log('stopped default');
     }
 
     player.handleInput(allowedKeys[e.keyCode]);
@@ -168,7 +168,7 @@ document.addEventListener('keyup', function(e) {
 
 //Pseudo-randomize enemies' speed
 function enemySpeedVal(speed){
-    return Math.floor(Math.random() *  (speed))
+    return Math.floor(Math.random() *  (speed));
 }
 
 //Pseudo-randomize enemies' beginning x location coordinate
@@ -189,14 +189,14 @@ function movePlayerRight(currentX){
 //Remove enemies from screen and alert user that game is over.
 function endGame(){
     allEnemies.length = 0;
-    window.alert("Oh, No. YOU COLLIDED. CLICK 'OK' TO TRY AGAIN")
+    window.alert("Oh, No. YOU COLLIDED. CLICK 'OK' TO TRY AGAIN");
 
 }
 
 //Alert user when she has won.
 function winGame(){
 
-        window.alert("YOU WON!")
+        window.alert("YOU WON!");
 
 }
 
