@@ -39,7 +39,7 @@ Enemy.prototype.update = function(dt) {
         }
 };
 
-// Draw the enemy on the screen, required method for game
+// Draw the enemy on the screen.
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
@@ -65,9 +65,7 @@ Enemy.prototype.checkCollisions = function(other){
 };
 
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+// The Player class defines player's img and location
 var Player = function(x,y){
     this.sprite = 'images/char-horn-girl.png';
     this.height = 100;
@@ -75,11 +73,12 @@ var Player = function(x,y){
     this.x = x
     this.y = y
 
-    // console.log("madeOnePlayer")
+
 };
 
+//Update player's location on screen according to keydown events. End game when player reaches water and restart game.
 Player.prototype.update = function(dt) {
-    // console.log('prototypedPlayer!')
+
     this.x = this.x
     this.y = this.y
     window.addEventListener('keydown', Player.prototype.handleInput);
@@ -90,29 +89,42 @@ Player.prototype.update = function(dt) {
 
 };
 
-// Draw the player on the screen, required method for game
+// Draw the player on the screen
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 Player.prototype.handleInput = function(key){
-      // Prevent default behaviour of arrow keys
+//  TO-DO: WHY DOESN'T SWITCH WORK?
+//     switch (key) {
+//   case 'up' && this.y > 10:
+//     this.y= this.y - 10; console.log(key);
+//     break;
+//   case 'down' && this.y < 400:
+//     console.log("Apples are $0.32 a pound.");
+//     break;
+//   case 'left' && this.x > 0:
+//     this.x = this.x - 10;
+//     break;
+//   case 'right' && this.x < 400:
+//     this.x = movePlayerRight(this.x);
+//     break;
 
-    if (key === 'up' && this.y > 10){this.y= this.y - 10; console.log(key);}
+// };
+    // Move player's location on screen, location depending on keydown event
+    if (key === 'up' && this.y > 10){this.y= this.y - 10; }
     if (key === 'down' && this.y < 400){this.y = this.y + 10;}
     if (key === 'left' && this.x > 0){this.x = this.x - 10;}
     if (key === 'right' && this.x < 400){
         this.x = movePlayerRight(this.x);}
 
-
-
-
-};
+}
 
 
 
 
-// Now instantiate your objects.
+
+// Instantiate objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
@@ -121,7 +133,7 @@ playerStartY = 435;
 var allEnemies = []
 var player = new Player(playerStartX,playerStartY);
 
-//how to make # of enemies increase incrementally
+// TO-DO: how to make # of enemies increase incrementally
 function makeEnemeis(){
         for(let i=0; i<4; i++){
             var newEnemy = new Enemy(0, enemyPlaceVal(50, 330), enemySpeedVal(100) );
@@ -130,14 +142,14 @@ function makeEnemeis(){
 
     }
 
- makeEnemeis()
+ makeEnemeis();
 
 
 
 
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// Listen for key presses and send the keys to
+// Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -145,20 +157,21 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
+    // Prevent default behaviour of arrow keys
     if(e.which === 37 || e.which === 38 || e.which === 39 || e.which === 40){
-        e.preventDefault(); console.log('stopped default')
+        e.preventDefault(); e.stopPropagation(); console.log('stopped default')
     }
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
 
-
+//Pseudo-randomize enemies' speed
 function enemySpeedVal(speed){
     return Math.floor(Math.random() *  (speed))
 }
 
+//Pseudo-randomize enemies' beginning x location coordinate
 function enemyPlaceVal(min, max){
     return Math.random() * (max - min) + min;
 }
@@ -168,16 +181,19 @@ function enemyPlaceVal(min, max){
 
 // }
 
+// Play with using a funtion to deterimine player movement. Not concise.
 function movePlayerRight(currentX){
     return currentX  += 10;
 }
 
+//Remove enemies from screen and alert user that game is over.
 function endGame(){
     allEnemies.length = 0;
     window.alert("Oh, No. YOU COLLIDED. CLICK 'OK' TO TRY AGAIN")
 
 }
 
+//Alert user when she has won.
 function winGame(){
 
         window.alert("YOU WON!")
@@ -189,7 +205,4 @@ function winGame(){
 
 // }
 
-//TO DO
-// end game function
-// add end game to checkCollisions()
 
