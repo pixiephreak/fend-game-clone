@@ -13,6 +13,7 @@ var Character = function(x,y){
 
 Character.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    // How to call "custom code" within here for enemy/player
 };
 
 
