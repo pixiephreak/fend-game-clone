@@ -1,6 +1,8 @@
 // Enemies our player must avoid
-
-
+//TO-DO: HOW CAN I TAKE THeSe COUNTs OUT OF THE GLOBAL SCOPE
+enemyCount = 2
+score = 0
+checkScore();
 
 var Enemy = function(x,y,speed) {
     this.sprite = 'images/enemy-bug.png';
@@ -33,15 +35,18 @@ Enemy.prototype.update = function(dt) {
         // all computers.
 
         this.x = this.x + this.speed * dt;
-        // Have enemies re-render at x = 0 when the reach the right edge
-        if(this.x > 500){
-            this.x = 0;
-        }
+
 };
 
 // Draw the enemy on the screen.
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    // Have enemies re-render at x = 0 when the reach the right edge
+        if(this.x > 500){
+            this.x = -100;
+            this.y = enemyPlaceVal(50, 250);
+            this.speed = this.speed * 1.1;
+        }
 
 };
 
@@ -57,9 +62,14 @@ Enemy.prototype.checkCollisions = function(other){
            thisEnemy.y < thisPlayer.y+ 60 &&
            60 + thisEnemy.y > thisPlayer.y) {
             console.log('collision detected!');
-            endGame();
-            document.location.reload(true);
-            // reset() = false;
+            thisPlayer.x = playerStartX
+            thisPlayer.y = playerStartY
+            //empty and recall allEnemies to reset speed incrementation
+            allEnemies.length = 0;
+            makeEnemies(enemyCount);
+            score = score -2
+            console.log(score)
+            $('#score').html("Score:" + (score) )
         }
     }
 };
@@ -82,41 +92,52 @@ Player.prototype.update = function(dt) {
     this.x = this.x;
     this.y = this.y;
     window.addEventListener('keydown', Player.prototype.handleInput);
-    if (player.y < 50){
-              winGame();
-              document.location.reload(true);
-        }
 
 };
 
 // Draw the player on the screen
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+     if (player.y < 50){
+            this.x = playerStartX
+            this.y = playerStartY
+            winRound();
+        }
 };
 
 Player.prototype.handleInput = function(key){
-//  TO-DO: WHY DOESN'T SWITCH WORK?
-//     switch (key) {
-//   case 'up' && this.y > 10:
-//     this.y= this.y - 10; console.log(key);
-//     break;
-//   case 'down' && this.y < 400:
-//     console.log("Apples are $0.32 a pound.");
-//     break;
-//   case 'left' && this.x > 0:
-//     this.x = this.x - 10;
-//     break;
-//   case 'right' && this.x < 400:
-//     this.x = movePlayerRight(this.x);
-//     break;
 
-// };
+ switch ( key ) {
+  case 'up':
+    if (this.y > 10) {
+        this.y= this.y - 10;
+    }
+    break;
+  case 'down':
+    if (this.y <= 425) {
+        this.y= this.y + 10;
+    }
+    break;
+  case 'left':
+    if (this.x > 0){
+        this.x = this.x - 10;
+    }
+    break;
+  case 'right':
+    if (this.x < 400){
+       this.x = movePlayerRight(this.x);
+    }
+    break;
+  default:
+    console.log('key other than up, down, left, right arrow pressed');
+
+};
     // Move player's location on screen, location depending on keydown event
-    if (key === 'up' && this.y > 10){this.y= this.y - 10; }
-    if (key === 'down' && this.y < 400){this.y = this.y + 10;}
-    if (key === 'left' && this.x > 0){this.x = this.x - 10;}
-    if (key === 'right' && this.x < 400){
-        this.x = movePlayerRight(this.x);}
+    // if (key === 'up' && this.y > 10){this.y= this.y - 10; }
+    // if (key === 'down' && this.y < 400){this.y = this.y + 10;}
+    // if (key === 'left' && this.x > 0){this.x = this.x - 10;}
+    // if (key === 'right' && this.x < 400){
+    //     this.x = movePlayerRight(this.x);}
 
 };
 
@@ -133,16 +154,15 @@ playerStartY = 435;
 var allEnemies = [];
 var player = new Player(playerStartX,playerStartY);
 
-// TO-DO: how to make # of enemies increase incrementally
-function makeEnemeis(){
-        for(let i=0; i<4; i++){
-            var newEnemy = new Enemy(0, enemyPlaceVal(50, 330), enemySpeedVal(100) );
+function makeEnemies(num){
+        for(let i=0; i<num; i++){
+            var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
             allEnemies.push(newEnemy);
         }
 
     }
 
- makeEnemeis();
+ makeEnemies(enemyCount);
 
 
 
@@ -188,18 +208,34 @@ function movePlayerRight(currentX){
 
 //Remove enemies from screen and alert user that game is over.
 function endGame(){
-    allEnemies.length = 0;
-    window.alert("Oh, No. YOU COLLIDED. CLICK 'OK' TO TRY AGAIN");
+
 
 }
 
 //Alert user when she has won.
-function winGame(){
-
-        window.alert("YOU WON!");
+function winRound(){
+        enemyCount += 1
+        allEnemies.length = 0;
+        makeEnemies(enemyCount);
+        console.log ('won', "new enemy count:" + enemyCount)
+        score = score +2;
+        $('#score').html("Score:" + score )
+        //call a function that replaces player and creates new enemies.
+        //call makeEnemeies within here and add an enemy or two
+        //create a score div  replace innterHTML
 
 }
 
+function checkScore(){
+    if (enemyCount > 1 && score > 0){
+        window.alert('You Win! Ready to beat your own score?')
+        document.location.reload(true);
+    }if (score < - 8){
+        window.alert('Sorry, Try Again.')
+        document.location.reload(true);
+    }
+
+}
 
 // function start(){
 

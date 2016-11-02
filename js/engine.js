@@ -70,6 +70,7 @@ var Engine = (function(global) {
         reset();
         lastTime = Date.now();
         main();
+        $( "#main" ).append( "<p id = 'score'>Score: 0</p>" );
     }
 
     /* This function is called by main (our game loop) and itself calls all
@@ -111,6 +112,7 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
+        ctx.clearRect;
         var rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
