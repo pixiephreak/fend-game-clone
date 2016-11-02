@@ -2,7 +2,7 @@
 //TO-DO: HOW CAN I TAKE THeSe COUNTs OUT OF THE GLOBAL SCOPE
 enemyCount = 2
 score = 0
-checkScore();
+
 
 var Enemy = function(x,y,speed) {
     this.sprite = 'images/enemy-bug.png';
@@ -92,7 +92,7 @@ Player.prototype.update = function(dt) {
     this.x = this.x;
     this.y = this.y;
     window.addEventListener('keydown', Player.prototype.handleInput);
-
+    checkScore();
 };
 
 // Draw the player on the screen
@@ -150,7 +150,7 @@ Player.prototype.handleInput = function(key){
 // Place the player object in a variable called player
 
 playerStartX = 207;
-playerStartY = 435;
+playerStartY = 325;
 var allEnemies = [];
 var player = new Player(playerStartX,playerStartY);
 
@@ -170,17 +170,20 @@ function makeEnemies(num){
 
 // Listen for key presses and send the keys to
 // Player.handleInput() method.
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keyup', function(e){
+
     var allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
         40: 'down'
     };
-    // Prevent default behaviour of arrow keys
+
+     // Prevent default behaviour of arrow keys
     if(e.which === 37 || e.which === 38 || e.which === 39 || e.which === 40){
-        e.preventDefault(); e.stopPropagation(); console.log('stopped default');
+        e.preventDefault(); e.stopPropagation(); console.log('stopped default'); // doesn't work
     }
+
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
@@ -227,7 +230,7 @@ function winRound(){
 }
 
 function checkScore(){
-    if (enemyCount > 1 && score > 0){
+    if (enemyCount > 6 && score > 0){
         window.alert('You Win! Ready to beat your own score?')
         document.location.reload(true);
     }if (score < - 8){
