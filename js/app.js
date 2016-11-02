@@ -3,18 +3,31 @@
 enemyCount = 2
 score = 0
 
-
-var Enemy = function(x,y,speed) {
-    this.sprite = 'images/enemy-bug.png';
+var Character = function(x,y){
     this.width = 100;
     this.height = 100;
     this.x = x;
     this.y = y;
+
+}
+
+Character.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+
+var Enemy = function(speed) {
+    Character.call(this, speed)
+    this.sprite = 'images/enemy-bug.png';
     this.speed = speed;
 
     console.log('madeOneEnemy');
 
 };
+
+Enemy.prototype= Object.create(Character.prototype);
+Enemy.prototype.constructor = Enemy;
+
 
 // Update the enemy's position
 // Parameter: dt, a time delta between ticks
