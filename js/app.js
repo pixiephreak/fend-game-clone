@@ -3,25 +3,25 @@
 enemyCount = 2
 score = 0
 
-var Character = function(x,y){
-    this.width = 100;
-    this.height = 100;
-    this.x = x;
-    this.y = y;
+var Character = function(sprite, width, height){
+    this.sprite = sprite;
+    this.width = width;
+    this.height = height;
+
 
 }
 
 Character.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    // How to call "custom code" within here for enemy/player
+
 };
 
 
-var Enemy = function(speed) {
-    Character.call(this, speed)
-    this.sprite = 'images/enemy-bug.png';
-    this.speed = speed;
-
+var Enemy = function(x,y,speed) {
+    Character.call(this, 'images/enemy-bug.png', 100, 100)
+    this.x = x;
+    this.y = y;
+    this.speed=speed;
     console.log('madeOneEnemy');
 
 };
@@ -49,13 +49,7 @@ Enemy.prototype.update = function(dt) {
         // all computers.
 
         this.x = this.x + this.speed * dt;
-
-};
-
-// Draw the enemy on the screen.
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    // Have enemies re-render at x = 0 when the reach the right edge
+        // Have enemies re-render at x = 0 when the reach the right edge
         if(this.x > 500){
             this.x = -100;
             this.y = enemyPlaceVal(50, 250);
@@ -63,6 +57,13 @@ Enemy.prototype.render = function() {
         }
 
 };
+
+// // Draw the enemy on the screen.
+// Enemy.prototype.render = function() {
+//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+
+// };
 
 // check for collision of player/enemy
 Enemy.prototype.checkCollisions = function(other){
@@ -91,9 +92,7 @@ Enemy.prototype.checkCollisions = function(other){
 
 // The Player class defines player's img and location
 var Player = function(x,y){
-    this.sprite = 'images/char-horn-girl.png';
-    this.height = 100;
-    this.width = 100;
+    Character.call(this, 'images/char-horn-girl.png' , 100, 100)
     this.x = x;
     this.y = y;
 
@@ -107,17 +106,18 @@ Player.prototype.update = function(dt) {
     this.y = this.y;
     window.addEventListener('keydown', Player.prototype.handleInput);
     checkScore();
-};
-
-// Draw the player on the screen
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-     if (player.y < 50){
+    if (player.y < 50){
             this.x = playerStartX
             this.y = playerStartY
             winRound();
         }
 };
+
+// Draw the player on the screen
+// Player.prototype.render = function() {
+//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
+// };
 
 Player.prototype.handleInput = function(key){
 
@@ -172,6 +172,7 @@ function makeEnemies(num){
         for(let i=0; i<num; i++){
             var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
             allEnemies.push(newEnemy);
+            console.log("enemiesFunc")
         }
 
     }
