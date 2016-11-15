@@ -224,7 +224,7 @@ function winRound(){
 }
 
 function checkScore(){
-    if (enemyCount > 6 && score > 0){
+    if (score > 8){
         window.alert('You Win! Ready to beat your own score?');
         document.location.reload(true);
     }if (score < - 8){

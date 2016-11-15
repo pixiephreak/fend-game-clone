@@ -1,6 +1,43 @@
-frontend-nanodegree-arcade-game
-===============================
+# FEND Arcade Game Clone
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+This is a clone of a classic arcade game, frogger.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## Installation
+
+Clone or download the repository. Navegate to the repo in your file manager and open index.html in your browser. Alternatively, try navegating to the game directory on your local machine and running a [simpl HTTP server](http://www.linuxjournal.com/content/tech-tip-really-simple-http-server-python
+) from the terminal.
+
+
+## Usage
+
+Use the up/down/left/right arrows to move the player avatar to the water without colliding with the enemy bugs.
+
+Reaching the water increases the score iteratively by 2 points.
+Collisions with enemy bugs reduce the score itereatively by 2 points.
+
+When a player has eight points s/he wins and the game will restart.
+When a player has a score of less that -7, and has lost and the game will restart.
+
+
+## Contributing
+
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
+
+## History
+
+The frogger arcade gam source code is maintained by Udacity. It is regualrly forked and updated by Front End Nanodegree students, but anyone could participate by cloning the repo on github.
+
+## Credits
+
+Visual assets and a game loop engine.
+Functionality implimented by JCR.
+
+## License
+
+Apache License, Version 2.0
+
+
