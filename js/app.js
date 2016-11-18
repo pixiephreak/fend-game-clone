@@ -5,6 +5,7 @@ var score = 0;
 
 //Define character characteristics with superclass
 var Character = function(sprite, width, height){
+    'use strict';
     this.sprite = sprite;
     this.width = width;
     this.height = height;
@@ -12,12 +13,14 @@ var Character = function(sprite, width, height){
 
 //draw Character on screen
 Character.prototype.render = function() {
+    'use strict';
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
 };
 
 //create enemies subclass
 var Enemy = function(x,y,speed) {
+    'use strict';
     Character.call(this, 'images/enemy-bug.png', 100, 100);
     this.x = x;
     this.y = y;
@@ -48,6 +51,7 @@ Enemy.prototype.update = function(dt) {
     // to ensure the game runs at the same speed for
     // all computers.
 
+    'use strict';
     this.x = this.x + this.speed * dt;
     // Have enemies re-render at x = 0 when the reach the right edge
     if(this.x > 500){
@@ -61,10 +65,11 @@ Enemy.prototype.update = function(dt) {
 
 // check for collision of player/enemy
 Enemy.prototype.checkCollisions = function(other){
+    'use strict'
     var thisEnemy = this;
     var thisPlayer = other;
 
-    for (let i = 0; i < allEnemies.length; i++){
+    for (var i=0, l=allEnemies.length; i<l; i++){
 
         if ( thisEnemy.x < thisPlayer.x + 60 &&
            thisEnemy.x + 60 > thisPlayer.x &&
@@ -86,6 +91,7 @@ Enemy.prototype.checkCollisions = function(other){
 
 // The Player subclass defines player's img by Character class and location as parameters
 var Player = function(x,y){
+    'use strict';
     Character.call(this, 'images/char-horn-girl.png' , 100, 100);
     this.x = x;
     this.y = y;
@@ -98,7 +104,7 @@ Player.prototype.constructor = Enemy;
 
 //Update player's location on screen according to keydown events. End game when player reaches water and restart game.
 Player.prototype.update = function(dt) {
-
+    'use strict';
     this.x = this.x;
     this.y = this.y;
     window.addEventListener('keydown', Player.prototype.handleInput);
@@ -117,7 +123,7 @@ Player.prototype.update = function(dt) {
 // };
 
 Player.prototype.handleInput = function(key){
-
+'use strict';
  switch ( key ) {
   case 'up':
     if (this.y > 10) {
@@ -157,6 +163,7 @@ var allEnemies = [];
 var player = new Player(playerStartX,playerStartY);
 
 function makeEnemies(num){
+    'use strict';
         for(let i=0; i<num; i++){
             var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
             allEnemies.push(newEnemy);
@@ -174,7 +181,7 @@ function makeEnemies(num){
 // Listen for key presses and send the keys to
 // Player.handleInput() method.
 document.addEventListener('keyup', function(e){
-
+    'use strict';
     var allowedKeys = {
         37: 'left',
         38: 'up',
@@ -194,21 +201,25 @@ document.addEventListener('keyup', function(e){
 
 //Pseudo-randomize enemies' speed
 function enemySpeedVal(speed){
+    'use strict';
     return Math.floor(Math.random() *  (speed));
 }
 
 //Pseudo-randomize enemies' beginning x location coordinate
 function enemyPlaceVal(min, max){
+    'use strict';
     return Math.random() * (max - min) + min;
 }
 
 // Play with using a function to deterimine player movement. Not concise.
 function movePlayerRight(currentX){
+    'use strict';
     return currentX  += 10;
 }
 
 //Alert user when s/he has won.
 function winRound(){
+        'use strict';
         //increase enemies count by 1 and revert speed to randomized starting val by emptying and recreating the enemies array
         enemyCount += 1;
         allEnemies.length = 0;
@@ -224,6 +235,7 @@ function winRound(){
 }
 
 function checkScore(){
+    'use strict';
     if (score > 8){
         window.alert('You Win! Ready to beat your own score?');
         document.location.reload(true);
