@@ -152,7 +152,7 @@ var Engine = (function(global) {
      */
     function renderEntities() {
         /* Loop through all of the objects within the allEnemies array and call
-         * the render function you have defined.
+         * the render function which has been defined.
          */
         allEnemies.forEach(function(enemy) {
             enemy.render();

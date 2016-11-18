@@ -34,7 +34,7 @@ Character.prototype.winRound = function(){
         //increase enemies count by 1 and revert speed to randomized starting val by emptying and recreating the enemies array
         enemyCount += 1;
         allEnemies.length = 0;
-        this.makeEnemies();
+        this.makeEnemies(enemyCount);
         console.log ('won:', "new enemy count:" + enemyCount);
         //increment score
         score = score +1;
@@ -106,7 +106,7 @@ Enemy.prototype.checkCollisions = function(other){
             thisPlayer.y = playerStartY;
             //empty and recall allEnemies to reset speed incrementation
             allEnemies.length = 0;
-            this.makeEnemies();
+            this.makeEnemies(enemyCount);
             score = score -1;
             //Write score to #score div
             $('#score').html("Score:" + (score) );
@@ -186,6 +186,8 @@ var playerStartX = 207;
 var playerStartY = 325;
 var allEnemies = [];
 var player = new Player(playerStartX,playerStartY);
+var game = new Character();
+game.makeEnemies(enemyCount);
 // Listen for key presses and send the keys to
 // Player.handleInput() method.
 document.addEventListener('keyup', function(e){
