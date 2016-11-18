@@ -18,6 +18,33 @@ Character.prototype.render = function() {
 
 };
 
+Character.prototype.makeEnemies = function (enemyCount) {
+    'use strict';
+        for(let i=0; i<enemyCount; i++){
+            var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
+            allEnemies.push(newEnemy);
+            console.log("enemiesFunc");
+        }
+
+    };
+
+
+Character.prototype.winRound = function(){
+        'use strict';
+        //increase enemies count by 1 and revert speed to randomized starting val by emptying and recreating the enemies array
+        enemyCount += 1;
+        allEnemies.length = 0;
+        this.makeEnemies();
+        console.log ('won:', "new enemy count:" + enemyCount);
+        //increment score
+        score = score +1;
+         //create a score div  replace innterHTML
+        $('#score').html("Score:" + score );
+
+
+
+}
+
 //create enemies subclass
 var Enemy = function(x,y,speed) {
     'use strict';
@@ -32,7 +59,6 @@ var Enemy = function(x,y,speed) {
 //link Enemy class to character prototype chain
 Enemy.prototype= Object.create(Character.prototype);
 Enemy.prototype.constructor = Enemy;
-
 
 // Update the enemy's position
 // Parameter: dt, a time delta between ticks
@@ -80,14 +106,13 @@ Enemy.prototype.checkCollisions = function(other){
             thisPlayer.y = playerStartY;
             //empty and recall allEnemies to reset speed incrementation
             allEnemies.length = 0;
-            makeEnemies(enemyCount);
-            score = score -2;
+            this.makeEnemies();
+            score = score -1;
             //Write score to #score div
             $('#score').html("Score:" + (score) );
         }
     }
 };
-
 
 // The Player subclass defines player's img by Character class and location as parameters
 var Player = function(x,y){
@@ -112,7 +137,7 @@ Player.prototype.update = function(dt) {
     if (player.y < 50){
             this.x = playerStartX;
             this.y = playerStartY;
-            winRound();
+            this.winRound();
         }
 };
 
@@ -161,23 +186,6 @@ var playerStartX = 207;
 var playerStartY = 325;
 var allEnemies = [];
 var player = new Player(playerStartX,playerStartY);
-
-function makeEnemies(num){
-    'use strict';
-        for(let i=0; i<num; i++){
-            var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
-            allEnemies.push(newEnemy);
-            console.log("enemiesFunc");
-        }
-
-    }
-
- makeEnemies(enemyCount);
-
-
-
-
-
 // Listen for key presses and send the keys to
 // Player.handleInput() method.
 document.addEventListener('keyup', function(e){
@@ -217,27 +225,13 @@ function movePlayerRight(currentX){
     return currentX  += 10;
 }
 
-//Alert user when s/he has won.
-function winRound(){
-        'use strict';
-        //increase enemies count by 1 and revert speed to randomized starting val by emptying and recreating the enemies array
-        enemyCount += 1;
-        allEnemies.length = 0;
-        makeEnemies(enemyCount);
-        console.log ('won:', "new enemy count:" + enemyCount);
-        //increment score
-        score = score +2;
-         //create a score div  replace innterHTML
-        $('#score').html("Score:" + score );
 
 
-
-}
-
+//Alert user when s/he has won/lost
 function checkScore(){
     'use strict';
     if (score > 8){
-        window.alert('You Win! Ready to beat your own score?');
+        window.alert('You Win!');
         document.location.reload(true);
     }if (score < - 8){
         window.alert('Sorry, Try Again.');
