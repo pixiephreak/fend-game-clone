@@ -134,7 +134,7 @@ Player.prototype.update = function(dt) {
     this.y = this.y;
     window.addEventListener('keydown', Player.prototype.handleInput);
     checkScore();
-    if (player.y < 50){
+    if (this.y < 50){
             this.x = playerStartX;
             this.y = playerStartY;
             this.winRound();
