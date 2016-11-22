@@ -18,31 +18,17 @@ Character.prototype.render = function() {
 
 };
 
-Character.prototype.makeEnemies = function (enemyCount) {
-    'use strict';
-        for(let i=0; i<enemyCount; i++){
-            var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
-            allEnemies.push(newEnemy);
-            console.log("enemiesFunc");
-        }
-
-    };
-
-
 Character.prototype.winRound = function(){
         'use strict';
         //increase enemies count by 1 and revert speed to randomized starting val by emptying and recreating the enemies array
         enemyCount += 1;
         allEnemies.length = 0;
-        this.makeEnemies(enemyCount);
+        Enemy.makeEnemies(enemyCount);
         console.log ('won:', "new enemy count:" + enemyCount);
         //increment score
         score = score +1;
          //create a score div  replace innterHTML
         $('#score').html("Score:" + score );
-
-
-
 }
 
 //create enemies subclass
@@ -59,6 +45,16 @@ var Enemy = function(x,y,speed) {
 //link Enemy class to character prototype chain
 Enemy.prototype= Object.create(Character.prototype);
 Enemy.prototype.constructor = Enemy;
+
+Enemy.prototype.makeEnemies = function (enemyCount) {
+    'use strict';
+        for(let i=0; i<enemyCount; i++){
+            var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
+            allEnemies.push(newEnemy);
+            console.log("enemiesFunc");
+        }
+
+    };
 
 // Update the enemy's position
 // Parameter: dt, a time delta between ticks
@@ -125,7 +121,7 @@ var Player = function(x,y){
 };
 
 Player.prototype= Object.create(Character.prototype);
-Player.prototype.constructor = Enemy;
+Player.prototype.constructor = Player;
 
 //Update player's location on screen according to keydown events. End game when player reaches water and restart game.
 Player.prototype.update = function(dt) {
@@ -167,7 +163,7 @@ Player.prototype.handleInput = function(key){
     break;
   case 'right':
     if (this.x < 400){
-       this.x = movePlayerRight(this.x);
+       this.x = this.x +10;
     }
     break;
   default:
@@ -186,7 +182,7 @@ var playerStartX = 207;
 var playerStartY = 325;
 var allEnemies = [];
 var player = new Player(playerStartX,playerStartY);
-var game = new Character();
+var game = new Enemy();
 game.makeEnemies(enemyCount);
 // Listen for key presses and send the keys to
 // Player.handleInput() method.
@@ -219,12 +215,6 @@ function enemySpeedVal(speed){
 function enemyPlaceVal(min, max){
     'use strict';
     return Math.random() * (max - min) + min;
-}
-
-// Play with using a function to deterimine player movement. Not concise.
-function movePlayerRight(currentX){
-    'use strict';
-    return currentX  += 10;
 }
 
 
