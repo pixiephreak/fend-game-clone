@@ -1,7 +1,9 @@
 // Enemies our player must avoid
 //TO-DO: HOW CAN I TAKE THeSe COUNTs OUT OF THE GLOBAL SCOPE
-var enemyCount = 2;
-var score = 0;
+var app = app || {};
+
+app.enemyCount = 2;
+app.score = 0;
 
 //Define character characteristics with superclass
 var Character = function(sprite, width, height){
@@ -18,18 +20,6 @@ Character.prototype.render = function() {
 
 };
 
-Character.prototype.winRound = function(){
-        'use strict';
-        //increase enemies count by 1 and revert speed to randomized starting val by emptying and recreating the enemies array
-        enemyCount += 1;
-        allEnemies.length = 0;
-        Enemy.makeEnemies(enemyCount);
-        console.log ('won:', "new enemy count:" + enemyCount);
-        //increment score
-        score = score +1;
-         //create a score div  replace innterHTML
-        $('#score').html("Score:" + score );
-}
 
 //create enemies subclass
 var Enemy = function(x,y,speed) {
@@ -45,16 +35,6 @@ var Enemy = function(x,y,speed) {
 //link Enemy class to character prototype chain
 Enemy.prototype= Object.create(Character.prototype);
 Enemy.prototype.constructor = Enemy;
-
-Enemy.prototype.makeEnemies = function (enemyCount) {
-    'use strict';
-        for(let i=0; i<enemyCount; i++){
-            var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
-            allEnemies.push(newEnemy);
-            console.log("enemiesFunc");
-        }
-
-    };
 
 // Update the enemy's position
 // Parameter: dt, a time delta between ticks
@@ -72,9 +52,10 @@ Enemy.prototype.update = function(dt) {
     // multiply any movement by the dt parameter
     // to ensure the game runs at the same speed for
     // all computers.
+    const speed = this.speed * dt;
 
     'use strict';
-    this.x = this.x + this.speed * dt;
+    this.x = this.x + speed ;
     // Have enemies re-render at x = 0 when the reach the right edge
     if(this.x > 500){
         this.x = -100;
@@ -102,10 +83,10 @@ Enemy.prototype.checkCollisions = function(other){
             thisPlayer.y = playerStartY;
             //empty and recall allEnemies to reset speed incrementation
             allEnemies.length = 0;
-            this.makeEnemies(enemyCount);
-            score = score -1;
-            //Write score to #score div
-            $('#score').html("Score:" + (score) );
+            app.makeEnemies(app.enemyCount);
+            app.score= app.score-1;
+            //Write app.scoreto #app.scorediv
+            $('#score').html("Score:" + (app.score) );
         }
     }
 };
@@ -129,7 +110,7 @@ Player.prototype.update = function(dt) {
     this.x = this.x;
     this.y = this.y;
     window.addEventListener('keydown', Player.prototype.handleInput);
-    checkScore();
+    app.checkScore();
     if (this.y < 50){
             this.x = playerStartX;
             this.y = playerStartY;
@@ -138,14 +119,15 @@ Player.prototype.update = function(dt) {
 };
 
 // Draw the player on the screen
-// Player.prototype.render = function() {
-//     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
-// };
 
 Player.prototype.handleInput = function(key){
 'use strict';
- switch ( key ) {
+ // Prevent default behaviour of arrow keys
+    if(key.which === 37 || key.which === 38 || key.which === 39 || key.which === 40){
+        key.preventDefault(); key.stopPropagation(); console.log('stopped default');
+    }
+ switch (key) {
   case 'up':
     if (this.y > 10) {
         this.y= this.y - 10;
@@ -169,9 +151,23 @@ Player.prototype.handleInput = function(key){
   default:
     console.log('key other than up, down, left, right arrow pressed');
 
+
 }
 //TO-DO: why does switch always call default case?
 
+};
+
+Player.prototype.winRound = function(){
+        'use strict';
+        //increase enemies count by 1 and revert speed to randomized starting val by emptying and recreating the enemies array
+        app.enemyCount += 1;
+        allEnemies.length = 0;
+        app.makeEnemies(app.enemyCount);
+        console.log ('won:', "new enemy count:" + app.enemyCount);
+        //increment score
+        app.score = app.score +1;
+         //create a score div  replace innterHTML
+        $('#score').html("Score:" + app.score );
 };
 
 // Instantiate objects.
@@ -182,10 +178,18 @@ var playerStartX = 207;
 var playerStartY = 325;
 var allEnemies = [];
 var player = new Player(playerStartX,playerStartY);
-var game = new Enemy();
-game.makeEnemies(enemyCount);
-// Listen for key presses and send the keys to
-// Player.handleInput() method.
+app.makeEnemies = function (enemyCount) {
+    'use strict';
+        for(let i=0; i<app.enemyCount; i++){
+            var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
+            allEnemies.push(newEnemy);
+            console.log("enemiesFunc");
+        }
+
+    };
+
+app.makeEnemies(4);
+
 document.addEventListener('keyup', function(e){
     'use strict';
     var allowedKeys = {
@@ -194,12 +198,6 @@ document.addEventListener('keyup', function(e){
         39: 'right',
         40: 'down'
     };
-
-     // Prevent default behaviour of arrow keys
-    if(e.which === 37 || e.which === 38 || e.which === 39 || e.which === 40){
-        e.preventDefault(); e.stopPropagation(); console.log('stopped default'); // doesn't work
-    }
-
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
@@ -215,22 +213,22 @@ function enemySpeedVal(speed){
 function enemyPlaceVal(min, max){
     'use strict';
     return Math.random() * (max - min) + min;
-}
+};
 
 
 
 //Alert user when s/he has won/lost
-function checkScore(){
+app.checkScore = function(){
     'use strict';
-    if (score > 8){
+    if (app.score> 8){
         window.alert('You Win!');
         document.location.reload(true);
-    }if (score < - 8){
+    }if (app.score< - 8){
         window.alert('Sorry, Try Again.');
         document.location.reload(true);
     }
 
-}
+};
 
 
 
