@@ -28,7 +28,7 @@ var Enemy = function(x,y,speed) {
     this.x = x;
     this.y = y;
     this.speed=speed;
-    console.log('madeOneEnemy');
+    // console.log('madeOneEnemy');
 
 };
 
@@ -78,7 +78,7 @@ Enemy.prototype.checkCollisions = function(other){
            thisEnemy.x + 60 > thisPlayer.x &&
            thisEnemy.y < thisPlayer.y+ 60 &&
            60 + thisEnemy.y > thisPlayer.y) {
-            console.log('collision detected!');
+            // console.log('collision detected!');
             thisPlayer.x = playerStartX;
             thisPlayer.y = playerStartY;
             //empty and recall allEnemies to reset speed incrementation
@@ -125,7 +125,7 @@ Player.prototype.handleInput = function(key){
 'use strict';
  // Prevent default behaviour of arrow keys
     if(key.which === 37 || key.which === 38 || key.which === 39 || key.which === 40){
-        key.preventDefault(); key.stopPropagation(); console.log('stopped default');
+        key.preventDefault(); key.stopPropagation();
     }
  switch (key) {
   case 'up':
@@ -163,7 +163,7 @@ Player.prototype.winRound = function(){
         app.enemyCount += 1;
         allEnemies.length = 0;
         app.makeEnemies(app.enemyCount);
-        console.log ('won:', "new enemy count:" + app.enemyCount);
+        // console.log ('won:', "new enemy count:" + app.enemyCount);
         //increment score
         app.score = app.score +1;
          //create a score div  replace innterHTML
@@ -183,7 +183,7 @@ app.makeEnemies = function (enemyCount) {
         for(let i=0; i<app.enemyCount; i++){
             var newEnemy = new Enemy(-100, enemyPlaceVal(50, 250), enemySpeedVal(85) );
             allEnemies.push(newEnemy);
-            console.log("enemiesFunc");
+            // console.log("enemiesFunc");
         }
 
     };
